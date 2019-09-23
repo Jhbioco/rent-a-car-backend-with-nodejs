@@ -1,5 +1,7 @@
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const config = require("config");
 const { User } = require("../models/user");
 module.exports = async function auth(req, res, next) {
   const { error } = validateAuth(req.body);
@@ -14,8 +16,20 @@ module.exports = async function auth(req, res, next) {
   if (!validPassword) {
     return res.status(400).send("Invalid email or password");
   }
-  res.send("User Autheticated!");
+  res.send(
+    generateToken({
+      id: user._id,
+      email: user.email,
+      name: user.name,
+      category: user.category.name
+    })
+  );
 };
+// Generate token
+function generateToken(params = {}) {
+  const token = jwt.sign(params, config.get("jwtPrivateKey"));
+  return token;
+}
 
 function validateAuth(req) {
   const schema = {

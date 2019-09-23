@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const { User, validateUser } = require("../models/user");
 const { Category } = require("../models/category");
+const authToken = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
   try {
@@ -14,7 +15,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authToken, async (req, res) => {
   try {
     const { error } = validateUser(req.body);
     if (error) {
@@ -39,7 +40,6 @@ router.post("/", async (req, res) => {
     // Encrypt password with bcrypt
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-
     res.send(await user.save());
   } catch (error) {
     console.log(error);
@@ -79,7 +79,7 @@ router.put("/:id", async (req, res) => {
   } catch (error) {}
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authToken, async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).send("Invalid user!");

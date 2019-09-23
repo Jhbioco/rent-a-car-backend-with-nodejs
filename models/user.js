@@ -11,8 +11,8 @@ const userSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: true },
   address: { type: String, minlength: 6, required: true },
   vat: { type: String, maxlength: 9, required: true },
-  email: { type: String, minlength: 6, maxlength: 40, required: true },
-  password: { type: String, minlength: 6, required: true }
+  email: { type: String, minlength: 6, maxlength: 255, required: true },
+  password: { type: String, minlength: 6, maxlength: 255, required: true }
 });
 
 // Create the model
@@ -42,6 +42,7 @@ function validateUser(user) {
       .required(),
     password: Joi.string()
       .min(6)
+      .max(255)
       .required()
   };
   return Joi.validate(user, schema);
