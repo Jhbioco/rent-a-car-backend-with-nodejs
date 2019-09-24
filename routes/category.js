@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     const categories = await Category.find().sort({ _id: -1 });
     res.send(categories);
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
     const category = new Category(req.body);
     res.send(await category.save());
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -44,7 +44,7 @@ router.put("/:id", async (req, res) => {
     );
     res.send(await category.save());
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -55,7 +55,7 @@ router.delete("/:id", async (req, res) => {
     }
     res.send(await Category.findByIdAndRemove(req.params.id));
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -67,7 +67,7 @@ router.get("/:id", async (req, res) => {
     const category = await Category.findById(req.params.id);
     res.send(category);
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 

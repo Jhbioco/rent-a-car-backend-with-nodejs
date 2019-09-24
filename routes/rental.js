@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
     const rentals = await Rental.find().sort({ _id: -1 });
     res.send(rentals);
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -64,7 +64,7 @@ router.post("/", async (req, res) => {
     car.available = false;
     await car.save();
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -123,7 +123,7 @@ router.put("/:id", async (req, res) => {
     car.available = false;
     await car.save();
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -135,7 +135,7 @@ router.get("/:id", async (req, res) => {
     const rental = await Rental.findById(req.params.id);
     res.send(rental);
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -147,7 +147,7 @@ router.delete("/:id", async (req, res) => {
     const rental = await Rental.findByIdAndRemove(req.params.id);
     res.send(rental);
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 

@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
     const car = new Car(req.body);
     res.send(await car.save());
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -37,7 +37,7 @@ router.put("/:id", async (req, res) => {
     const car = await Car.findById(req.params.id, req.body, { new: true });
     res.send(await car.save());
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -48,7 +48,7 @@ router.delete("/:id", async (req, res) => {
     }
     res.send(await Car.findByIdAndRemove(req.params.id));
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -60,7 +60,7 @@ router.get("/:id", async (req, res) => {
     const cars = await Car.findById(req.params.id);
     res.send(cars);
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 

@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
     const users = await User.find().sort({ _id: -1 });
     res.send(users);
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -42,7 +42,7 @@ router.post("/", authToken, async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     res.send(await user.save());
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -76,7 +76,9 @@ router.put("/:id", async (req, res) => {
       { new: true }
     );
     res.send(await user.save());
-  } catch (error) {}
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 router.delete("/:id", authToken, async (req, res) => {
@@ -86,7 +88,7 @@ router.delete("/:id", authToken, async (req, res) => {
     }
     res.send(await User.findByIdAndRemove(req.params.id));
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -98,7 +100,7 @@ router.get("/:id", async (req, res) => {
     const user = await User.findById(req.params.id);
     res.send(user);
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -108,7 +110,7 @@ router.get("/vat/:vat", async (req, res) => {
     const user = await User.find({ vat: req.params.vat });
     res.send(user);
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 
@@ -121,7 +123,7 @@ router.get("/surname/:surname", async (req, res) => {
     });
     res.send(users);
   } catch (error) {
-    console.log(error);
+    res.send(error.message);
   }
 });
 module.exports = router;
